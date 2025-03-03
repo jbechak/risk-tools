@@ -4,7 +4,7 @@
 https://risk-tools.netlify.app/
 
 ## User Instructions
-Risk Roller is a companion to the game of Risk. The top portion of the window serves as a dice roller and evaluator, which can be used during game play in lieu of dice. The bottom portion is an odds calculator, which consists of three modes: Single Roll, Battle, and Conquest.
+Risk Tools is a companion to the game of Risk. The top portion of the window serves as a dice roller and evaluator, which can be used during game play in lieu of dice. The bottom portion is an odds calculator, which consists of three modes: Single Roll, Battle, and Conquest.
 
 ### Dice Roller
 Click the 'Roll' button to roll the dice. Click the 'Reset' button to reset the dice, although resetting in between dice rolls is not necessary. To change the number of dice to be rolled, simply click on any die to toggle it on or off.
