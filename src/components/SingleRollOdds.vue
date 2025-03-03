@@ -14,7 +14,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { calculateOdds, formatOddsValue } from '@/oddsHelpers.js'
+import { calculateSingleRollOdds, formatOddsValue } from '@/oddsHelpers.js'
 
 const props = defineProps({
   redDiceCount: {
@@ -27,5 +27,5 @@ const props = defineProps({
   },
 });
 
-const odds = computed(() => calculateOdds(props.redDiceCount, props.whiteDiceCount));
+const odds = computed(() => calculateSingleRollOdds(props.redDiceCount, props.whiteDiceCount));
 </script>

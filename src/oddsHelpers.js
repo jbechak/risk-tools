@@ -7,14 +7,17 @@ let diceCount;
 let rollOddsSets = {};
 let battleOddsSets = {};
 
-export function calculateOdds(redDiceCount, whiteDiceCount) {
+export function calculateSingleRollOdds(redDiceCount, whiteDiceCount) {
+  //use stored result if it exists
   const storedResult = rollOddsSets[`${redDiceCount}vs${whiteDiceCount}`];
   if (storedResult) 
     return storedResult;
 
+  //set up values
   diceCount = redDiceCount + whiteDiceCount;
   resetValues(redDiceCount, whiteDiceCount);
   let currentDie = 0;
+
   recurseOdds(currentDie);
   totalCombinations = redWhiteWinSet.length;
   const result = compileOdds();
@@ -22,51 +25,46 @@ export function calculateOdds(redDiceCount, whiteDiceCount) {
   return result;
 }
 
-function resetValues(redDiceCount, whiteDiceCount) {
-  redDiceValues = fillArrayWithZeros(redDiceCount);
-  whiteDiceValues = fillArrayWithZeros(whiteDiceCount);
+function resetValues(redDiceCount, whiteDiceCount) {  
+  redDiceValues = new Array(redDiceCount).fill(0);
+  whiteDiceValues = new Array(whiteDiceCount).fill(0);
   redWhiteWinSet = [];
   totalCombinations = 0;
 }
 
-function fillArrayWithZeros(arrLength) {
-  let arr = [];
-  for (let i = 0; i < arrLength; i++) arr.push(0);
-  return arr;
-}
-
 function recurseOdds(currentDie) {
-  if (currentDie >= diceCount) {
+  if (currentDie >= diceCount)
     return;
-  }
+
   currentDie++;
+
   for (let i = 1; i <= 6; i++) {
-    if (currentDie <= redDiceValues.length) {
+    if (currentDie <= redDiceValues.length)
       redDiceValues[currentDie - 1] = i;
-    } else {
+    else
       whiteDiceValues[currentDie - redDiceValues.length - 1] = i;
-    }
+    
     recurseOdds(currentDie);
-    if (currentDie == diceCount) {
+
+    if (currentDie == diceCount)
       redWhiteWinSet.push(getRiskWinners());
-    }
   }
   currentDie--;
 }
 
+//returns an array from a single dice roll of [red win count, white win count]
 function getRiskWinners() {
-  let wins = [0, 0];
-  if (Math.max(...whiteDiceValues) >= Math.max(...redDiceValues)) {
+  const wins = [0, 0];
+  if (Math.max(...whiteDiceValues) >= Math.max(...redDiceValues))
     wins[1]++;
-  } else {
+  else
     wins[0]++;
-  }
 
   if (whiteDiceValues.length > 1 && redDiceValues.length > 1) {
-    if (getSecondHighest(whiteDiceValues) >= getSecondHighest(redDiceValues)) {
+    if (getSecondHighest(whiteDiceValues) >= getSecondHighest(redDiceValues))
       wins[1]++;
-    }
-    else wins[0]++;
+    else 
+      wins[0]++;
   }
   return wins;
 }
@@ -209,7 +207,7 @@ async function runScenarios(offenseCount, defenseCount, battleOdds, chance = 1) 
 
       const redDiceToRoll = offenseCount > 3 ? 3 : offenseCount - 1;
       const whiteDiceToRoll = defenseCount > 1 ? 2 : 1;
-      const rollResults = calculateOdds(redDiceToRoll, whiteDiceToRoll);
+      const rollResults = calculateSingleRollOdds(redDiceToRoll, whiteDiceToRoll);
       runScenariosBasedOnRollResults(offenseCount, defenseCount, battleOdds, rollResults, chance);
     }
   }
