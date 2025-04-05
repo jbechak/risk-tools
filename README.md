@@ -1,6 +1,6 @@
 # Risk Tools
 
-## View deployed application
+## Deployed application link
 https://risk-tools.netlify.app/
 
 ## User Instructions
